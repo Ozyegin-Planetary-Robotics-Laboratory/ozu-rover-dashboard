@@ -7,14 +7,14 @@
     </div>
   </div>
   <div id="map" ref="map"></div>
-  <div class="gridContainer">
+  <!--<div class="gridContainer">
     <div class="css-ccs">
       <div class="dot" style="--x: -3;"></div>
       <div class="dot" style="--x: 0;"></div>
       <div class="dot" style="--x: 1;"></div>
       <div class="dot" style="--x: 2;"></div>
     </div>
-  </div>
+  </div>-->
 </template>
 
 <script>
@@ -46,6 +46,8 @@ export default {
   },
   mounted() {
     this.map = L.map("map", {
+      zoomControl: false,
+      attributionControl: false,
       center: L.latLng(0.0, 0.0),
       center: L.latLng(38.4063641, -110.7916091),
       zoom: 20,
