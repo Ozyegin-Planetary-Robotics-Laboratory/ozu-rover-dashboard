@@ -5,7 +5,7 @@ import MarkerIcon from './MarkerIcon.vue';
 export default {
   data() {
     return {
-      flaskBackendUrl: "http://127.0.0.1:5000/goal/", // URI for Back-end
+      flaskBackendUrl: "http://127.0.0.1:4000/goal/", // URI for Back-end
       dictionary: new MarkerDictionary(),
       markerTypes: [
         { type: "Hammer" },
@@ -326,6 +326,7 @@ export default {
 }
 
 .inputs select,
+
 .inputs select option {
   color: black;
   height: 35%;

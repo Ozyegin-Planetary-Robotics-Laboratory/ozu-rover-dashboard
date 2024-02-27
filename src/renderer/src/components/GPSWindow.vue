@@ -7,14 +7,6 @@
     </div>
   </div>
   <div id="map" ref="map"></div>
-  <!--<div class="gridContainer">
-    <div class="css-ccs">
-      <div class="dot" style="--x: -3;"></div>
-      <div class="dot" style="--x: 0;"></div>
-      <div class="dot" style="--x: 1;"></div>
-      <div class="dot" style="--x: 2;"></div>
-    </div>
-  </div>-->
 </template>
 
 <script>
@@ -33,12 +25,12 @@ export default {
       map: null,
       interval: null,
       allMarkers: [],
-      rover: null,
-      roverData: {
-        latitude: 38.4063641,
-        longitude: -110.7916091
+      roverMarker: {
+        marker: null,
+        lat: 0.0,
+        lon: 0.0
       },
-      tempMarker: null,
+      tempMarker: null
     }
   },
   unmounted() {
@@ -64,14 +56,23 @@ export default {
       let lonInput = document.getElementById("inputLongitude");
       latInput.value = lat
       lonInput.value = lon
-      
     });
-
     var layer = L.tileLayer("http://localhost:3000/?z={z}&x={x}&y={y}.png", {}).addTo(this.map);
-    this.roverMove();
-    this.fetchData();
+
+    /* Add the rover icon to the map */
+    var greenIcon = L.icon({
+      iconUrl: '../../src/assets/icons/Ozu-Rover-Logo.svg',
+      iconSize: [80, 80], // size of the icon,  
+    });
+    
+    let newMarker = new L.marker([this.roverMarker.lat, this.roverMarker.lon], {
+      icon: greenIcon
+    }).addTo(this.map);
+
+    this.roverMarker.marker = newMarker;
 
     this.interval = setInterval(() => {
+      this.fetchData();
     }, 100);
   },
   methods: {
@@ -100,32 +101,13 @@ export default {
         }
       }
     },
-    roverMove() {
-      var greenIcon = L.icon({
-        iconUrl: '../../src/assets/icons/Ozu-Rover-Logo.svg',
-        iconSize: [80, 80], // size of the icon,  
-      });
-      let latitude = parseFloat(this.roverData.latitude);
-      let longitude = parseFloat(this.roverData.longitude);
-      let newMarker = new L.marker([latitude, longitude], { icon: greenIcon }).addTo(this.map);
-      this.allMarkers.push({
-        latitude: latitude,
-        longitude: longitude,
-        markerObject: newMarker
-      });
-      this.rover = newMarker;
-    },
     fetchData() {
-      var res = null;
       axios
-        .get('http://localhost:5000/gps/rover')
+        .get('http://localhost:4000/data/gps/rover')
         .then(response => {
-          res = response.data;
-          this.roverData.latitude = res.coordinates[0];
-          this.roverData.longitude = res.coordinates[1];
-          console.log(this.roverData.latitude, this.roverData.longitude);
-          this.rover.setLatLng([this.roverData.latitude, this.roverData.longitude])
-
+          let res = response.data;
+          console.log(res);
+          this.roverMarker.marker.setLatLng(L.latLng(res[0], res[1]));
         })
         .catch(error => {
           console.log(error);
