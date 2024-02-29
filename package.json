@@ -63,7 +63,7 @@
     "@webcomponents/webcomponentsjs": "^2.4.4",
     "babel-jest": "^29.5.0",
     "concurrently": "^6.2.1",
-    "electron": "^25.6.0",
+    "electron": "^25.9.8",
     "electron-builder": "^24.6.3",
     "electron-vite": "^1.0.28",
     "eslint": "^8.47.0",

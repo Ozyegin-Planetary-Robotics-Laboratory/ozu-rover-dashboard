@@ -18,12 +18,12 @@ var telemetryData = {
     },
     goal: null,
     markerType: null
-  },  
+  },
   science: {
     archive_ids: []
   },
   manipulator: {
-    angelPoses: [0, 0, 0, 0, 0]
+    anglePoses: [0, 0, 0, 0, 0]
   }
 }
 
@@ -34,14 +34,15 @@ function listener() {
   try {
     rosNodeJS.initNode('/listener_node').then((nh) => {
       console.log('ROS node initialized')
-      enqueue_client = nh.serviceClient('/ares/goal/enqueue', 'ozurover_messages/GetMarker')
-      abort_client = nh.serviceClient('/ares/goal/abort', 'ozurover_messages/Abort')
+      //enqueue_client = nh.serviceClient('/ares/goal/enqueue', 'ozurover_messages/GetMarker')
+      //abort_client = nh.serviceClient('/ares/goal/abort', 'ozurover_messages/Abort')
       var sub1 = nh.subscribe('/ares/gps/rover', 'sensor_msgs/NavSatFix', (data) => {
         telemetryData.autonomy.gps.rover = [data.latitude, data.longitude]
         console.log('GPS Data: ', telemetryData.autonomy.gps.rover)
       });
-      var sub2 = nh.subscribe('/ares/arm/state', 'sensor_msgs/JointState', (data) => {
-        telemetryData.manipulator.angelPoses = data.position
+      var sub2 = nh.subscribe('joint_states', 'sensor_msgs/JointState', (data) => {
+        console.log("data: ", data)
+        telemetryData.manipulator.anglePoses = data.position
       });
     })
   } catch (error) {
@@ -49,9 +50,7 @@ function listener() {
   }
 }
 
-if (require.main === module) {
-  listener()
-}
+listener()
 
 // Express
 const expressApp = express()
@@ -120,7 +119,7 @@ expressApp.post('/science/archive/create', (req, res) => {
 
 expressApp.get('/arm/data/ak60', (req, res) => {
   res.send(JSON.stringify({
-    'states': telemetryData.manipulator.angelPoses
+    'states': telemetryData.manipulator.anglePoses
   }))
 })
 
