@@ -1,10 +1,12 @@
 <script>
 import ArchiveNavigator from './science/ArchiveNavigator.vue';
+import Previews from './science/Previews.vue';
 
 export default {
   name: 'ScienceWindow',
   components: {
-    ArchiveNavigator
+    ArchiveNavigator,
+    Previews
   },
   data() {
     return {
@@ -15,7 +17,9 @@ export default {
         { id: 4, name: 'Archive 4' },
         { id: 5, name: 'Archive 5' }
       ],
-      selectedArchiveName: ''
+      selectedArchiveName: '',
+      panoramaImage: '',
+      highDefImage: ''
     };
   },
   methods: {
@@ -38,9 +42,15 @@ export default {
 };
 </script>
 
-<template>
-  <div>
-    <div class="space-between"></div>
+<template>    
+  
+  <div class="split left">
+      
+  </div>
+  
+  <div class="split right">
+    
+      <div class="space-between"></div>
     <ArchiveNavigator :archives="archives" @archive-selected="handleArchiveSelected" />
 
     <div class="space-between"></div>
@@ -57,16 +67,57 @@ export default {
 
     <div class="space-between"></div>
 
+    <Previews :panorama-image="panoramaImage" :high-def-image="highDefImage" />
+
+    <div class="space-between"></div>
+
     <div v-if="selectedArchiveName">Selected Archive: {{ selectedArchiveName }}</div>
+        
   </div>
+
 </template>
 
 <style scoped>
-body {
-  background-color: black;
+
+.split{
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 50px;
+}
+
+.left {
+  left: 0;
+  background-color: #ff0303a8;
+}
+
+.right{
+  background-color: rgb(80, 219, 25) !important;
+  right: 0;
 }
 
 .space-between {
   margin-bottom: 20px;
 }
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.previews-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.panorama-preview,
+.high-def-preview {
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 45%;
+}
 </style>
+
