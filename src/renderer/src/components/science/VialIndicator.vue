@@ -3,7 +3,7 @@
     <div
       v-for="(vial, index) in vials"
       :key="index"
-      :class="{ 'vial': true, 'filled': index < selected, 'yellow': index === 0 }"
+      :class="{ 'vial': true, 'filled': index<selected, 'yellow': index == selected }"
     ></div>
   </div>
 </template>

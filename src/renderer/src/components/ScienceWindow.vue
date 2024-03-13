@@ -43,8 +43,12 @@ export default {
       this.selectedArchiveName = archive.name;
     },
     handleSample() {
+      this.selected++;
+      if(this.selected > 8){
+        this.selected = 0 ;
+      }
       console.log("handleSample in ScienceWindow called");
-      
+      console.log(this.selected);
     }
 
   }
@@ -68,13 +72,13 @@ export default {
     <div class="space-between"></div>
 
     <div class="button-container">
-      <button style="background-color: red; margin-right: 100px; margin-left: 20px" @click="handleNewLog">
+      <button style="background-color: wheat; margin-right: 100px; margin-left: 20px" @click="handleNewLog">
         Create New Log
       </button>
-      <button style="background-color: red; margin-right: 100px" @click="handleCapturePanaroma">
+      <button style="background-color: wheat; margin-right: 100px" @click="handleCapturePanaroma">
         Capture Panaroma
       </button>
-      <button style="background-color: red" @click="handleCaptureHighDef">Capture High-Def</button>
+      <button style="background-color: wheat" @click="handleCaptureHighDef">Capture High-Def</button>
     </div>
 
     <div class="space-between"></div>
@@ -103,11 +107,11 @@ export default {
 
 .left {
   left: 0;
-  background-color: #ff0303a8;
+  background-color: #443737a8;
 }
 
 .right{
-  background-color: rgb(80, 219, 25) !important;
+  background-color: rgb(95, 72, 72) !important;
   right: 0;
 }
 
