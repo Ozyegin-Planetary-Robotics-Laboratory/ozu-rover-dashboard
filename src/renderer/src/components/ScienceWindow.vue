@@ -1,15 +1,19 @@
 <script>
 import ArchiveNavigator from './science/ArchiveNavigator.vue';
 import Previews from './science/Previews.vue';
+import VialIndicator from './science/VialIndicator.vue'
 
 export default {
   name: 'ScienceWindow',
   components: {
     ArchiveNavigator,
-    Previews
+    Previews,
+    VialIndicator
   },
   data() {
     return {
+      vials: Array(8).fill(false),
+      selected: 0,
       archives: [
         { id: 1, name: 'Archive 1' },
         { id: 2, name: 'Archive 2' },
@@ -19,7 +23,7 @@ export default {
       ],
       selectedArchiveName: '',
       panoramaImage: '',
-      highDefImage: ''
+      highDefImage: '',
     };
   },
   methods: {
@@ -37,7 +41,12 @@ export default {
     },
     handleArchiveSelected(archive) {
       this.selectedArchiveName = archive.name;
+    },
+    handleSample() {
+      console.log("handleSample in ScienceWindow called");
+      
     }
+
   }
 };
 </script>
@@ -45,7 +54,10 @@ export default {
 <template>    
   
   <div class="split left">
-      
+      <div>
+        <VialIndicator :vials="vials" :selected="selected" @sample="handleSample" />
+        <button @click="handleSample">Sample</button>
+      </div>
   </div>
   
   <div class="split right">
